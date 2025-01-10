@@ -1,5 +1,4 @@
 async function main() {
-  const trackManga = require("./utils/trackManga.js");
   const { updateAll } = require("./utils/updateGuilds");
   const { Client, Intents } = require("discord.js");
   const { readdirSync } = require("fs");
@@ -35,11 +34,6 @@ async function main() {
       commands.push(require(`./Commands/${file}`));
     }
   });
-
-  trackManga(client);
-  setInterval(() => {
-    trackManga(client);
-  }, 3600000);
 
   // Create callbacks for events ('client/on')
   const eventFilesOn = readdirSync(
@@ -109,10 +103,13 @@ async function main() {
   startManager(client);
   updateAll(client);
 
-  client.login(clientData.token);
+  require("dotenv").config();
+  client.login(process.env.DISCORD_TOKEN);
 }
 
 main();
 
 // Create err handler
 process.on("uncaughtException", (err) => console.log(err));
+
+// vim: tabstop=2 expandtab shiftwidth=2 sts=2

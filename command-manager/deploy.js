@@ -3,10 +3,12 @@ const { Routes } = require("discord-api-types/v9");
 const fs = require("node:fs");
 const path = require("node:path");
 const { getClientData } = require("../src/utils/getClientData");
+
 const run = async () => {
+  require("dotenv").config();
   const clientData = await getClientData();
-  const clientId = clientData.id;
-  const token = clientData.token;
+  const clientId = process.env.DISCORD_CLIENT_ID;
+  const token = process.env.DISCORD_TOKEN;
   const commands = [];
   // Grab all the command folders from the commands directory you created earlier
   const folderPath = path.join(__dirname, "../src/Commands");
@@ -47,3 +49,4 @@ const run = async () => {
 };
 
 run();
+// vim: tabstop=2 expandtab shiftwidth=2 sts=2
