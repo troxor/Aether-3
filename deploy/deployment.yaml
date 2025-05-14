@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aether-bot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aether
+  namespace: aether-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aether
+  template:
+    metadata:
+      labels:
+        app: aether
+    spec:
+      containers:
+      - name: aether
+        image: troxor/my:aether
+        env:
+          - name: URI
+            value: mongodb://mongodb.mongodb.svc.cluster.local:27017/aether
+        envFrom:
+          - secretRef:
+              name: aether
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
